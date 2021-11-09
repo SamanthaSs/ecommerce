@@ -11,8 +11,8 @@
 <section class="content">
 
   <div class="row">
-  	<div class="col-md-12">
-  		<div class="box box-primary">
+    <div class="col-md-12">
+      <div class="box box-primary">
         <div class="box-header with-border">
           <h3 class="box-title">Editar Produto</h3>
         </div>
@@ -61,7 +61,7 @@
           </div>
         </form>
       </div>
-  	</div>
+    </div>
   </div>
 
 </section>
@@ -70,11 +70,11 @@
 <!-- /.content-wrapper -->
 <script>
 document.querySelector('#file').addEventListener('change', function(){
-  
+
   var file = new FileReader();
 
   file.onload = function() {
-    
+
     document.querySelector('#image-preview').src = file.result;
 
   }
@@ -82,4 +82,4 @@ document.querySelector('#file').addEventListener('change', function(){
   file.readAsDataURL(this.files[0]);
 
 });
-</script>
+</script> 

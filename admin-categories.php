@@ -3,6 +3,7 @@
 use \Hcode\PageAdmin;
 use \Hcode\Model\User;
 use \Hcode\Model\Category;
+use \Hcode\Page;
 
 $app->get("/admin/categories",function(){
 
@@ -88,18 +89,18 @@ $app->post("/admin/categories/:idcategory",function($idcategory){
     exit;   
 });
 
-$app->get("/categories/:idcategory",function($idcategory){
+$app->get("/categories/:idcategory", function($idcategory){
 
     $category = new Category();
 
     $category->get((int)$idcategory);
 
-    $page = new PageAdmin();
+    $page = new Page();
 
-    $page->setTpl("category",[
+    $page->setTpl("categories", [
         'category'=>$category->getValues(),
         'products'=>[]
-    ]);
+    ]); 
 
 });
 

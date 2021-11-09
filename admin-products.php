@@ -3,6 +3,7 @@
 use \Hcode\PageAdmin;
 use \Hcode\Model\User;
 use \Hcode\Model\Product;
+use \Hcode\Model;
 
 $app->get("/admin/products",function(){
 
@@ -54,7 +55,7 @@ $app->get("/admin/products/:idproduct",function($idproduct){
 	$page = new PageAdmin();
 
 	$page->setTpl("products-update",[
-		"products"=>$products->getValues();
+		'products'=>$products->getValues()
 	]);
 
 });
