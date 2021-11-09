@@ -50,12 +50,12 @@ $app->get("/admin/products/:idproduct",function($idproduct){
 
 	$product = new Product();
 
-	$product = get((int)$idproduct);
+	$product->get((int)$idproduct);
 
 	$page = new PageAdmin();
 
 	$page->setTpl("products-update",[
-		'products'=>$products->getValues()
+		'product'=>$product->getValues()
 	]);
 
 });
@@ -66,7 +66,7 @@ $app->post("/admin/products/:idproduct",function($idproduct){
 
 	$product = new Product();
 
-	$product = get((int)$idproduct);
+	$product->get((int)$idproduct);
 
 	$product->setData($_POST);
 
@@ -79,13 +79,13 @@ $app->post("/admin/products/:idproduct",function($idproduct){
 
 });
 
-$app->post("/admin/products/:idproduct/delete",function($idproduct){
+$app->get("/admin/products/:idproduct/delete",function($idproduct){
 
 	User::verifyLogin();
 
 	$product = new Product();
 
-	$product = get((int)$idproduct);
+	$product->get((int)$idproduct);
 
 	$product->delete();
 
