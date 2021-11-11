@@ -3,9 +3,11 @@
 namespace Hcode\Model;
 
 use \Hcode\DB\Sql;
-use \Hcode\{Mailer, Model};
+use \Hcode\Model\User;
+use \Hcode\{Model,Mailer};
 
-class Category extends Model 
+
+class Cart extends Model 
 {
 	const SESSION = "Cart";
 
@@ -18,22 +20,42 @@ class Category extends Model
 			$cart->get((int)$_SESSION[Cart::SESSION]['idcart']);
 		} else
 		{
-			$cart->getFromSession();
+			$cart->getFromSessionID();
 
 			if (!(int)$cart->getidcart() > 0) {
 				$data = [
 					'dessessionid'=>session_id()
 				];
+
+				if(User::checkLogin(false))
+				{
+					$user = User::getFromSession();
+					
+					$data['iduser'] = $user->getiduser();	
+				}
+
+				$cart->setData($data);
+
+				$cart->save();
+
+				$cart->setSession();
 			}
 		}
+
+		return $cart;
 	}
 
-	public function getFromSession(int $idcart)
+	public function setSession()
+	{
+		$_SESSION[Cart::SESSION] = $this->getValues();
+	}
+
+	public function getFromSessionID()
 	{
 		$sql = new Sql();
 
 		$results = $sql->select("SELECT * FROM tb_carts WHERE dessessionid = :dessessionid",[
-			':dessessionid'=>$idcart
+			':dessessionid'=>session_id()
 		]);
 
 		if (count($results) > 0) {
