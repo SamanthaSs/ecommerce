@@ -25,7 +25,7 @@ class User extends Model {
 		return $user;
 	}
 	
-	public static function checkLogin()
+	public static function checkLogin($inadmin = true)
 	{
 		if(
 			!isset($_SESSION[User::SESSION]) 
@@ -38,7 +38,7 @@ class User extends Model {
 			return false;
 		}
 		
-	} else
+	 else
 		{
 
 		if($inadmin === true && (bool)$_SESSION[User::SESSION]['inadmin'] === true)
@@ -49,6 +49,7 @@ class User extends Model {
 					return false;
 				}
 		}
+	}
 
 	public static function login($login,$password){
 	$sql = new Sql;
@@ -69,6 +70,8 @@ class User extends Model {
 
 		$user = new User();
 
+		$data['desperson'] = utf8_encode($data['desperson']);
+
 		$user->setData($data);
 
 		$_SESSION[User::SESSION] = $user->getValues();
@@ -88,11 +91,12 @@ class User extends Model {
 	{
 		if(!User::checkLogin($inadmin))
 		{
-
-			header("Location: /admin/login/");
-			exit;
-
-		}
+			header("Location:/admin/login");
+		} else
+			{
+				header("Location:/login");
+			}
+		exit;
 
 	}
 	public static function logout()
@@ -115,7 +119,7 @@ class User extends Model {
 
 		$results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
 			":desperson"=>$this->getdesperson(),
-			":deslogin"=>$this->getdeslogin(),
+			":deslogin"=>utf8_decode($this->getdeslogin()),
 			":despassword"=>$this->getdespassword(),
 			":desemail"=>$this->getdesemail(),
 			":nrphone"=>$this->getnrphone(),
@@ -136,6 +140,8 @@ class User extends Model {
 
 		$data = $results[0];
 
+		$data['desperson'] = utf8_encode($data['desperson']);
+
 		$this->setData($data);
 	}
 
@@ -146,7 +152,7 @@ class User extends Model {
 
 		$results = $sql->select("CALL sp_usersupdate_save( :iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
 			":iduser"=>$this->getiduser(),
-			":desperson"=>$this->getdesperson(),
+			":desperson"=>utf8_decode($this->getdesperson()),
 			":deslogin"=>$this->getdeslogin(),
 			":despassword"=>$this->getdespassword(),
 			":desemail"=>$this->getdesemail(),
