@@ -2,7 +2,7 @@
 
 namespace Hcode;
 
-class Model{
+class Model {
 
 	private $values = [];
 
